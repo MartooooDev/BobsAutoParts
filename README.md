@@ -48,7 +48,6 @@ In the form tag, we have two important details: the action and the method.
 * action refers to the process file. This is the file where all the inputs will be directed for processing, allowing for them to be used as variables by the developers.
 * method refers to the HTTP method, being POST (to store), GET (to retrieve) and REQUEST.
 
-
 ### Form variables
 
 To access HTML forms via PHP variables, we use the 'name' atribute defined in the HTML fields. There are three ways to acces these these informations and store them in variables:
@@ -101,7 +100,6 @@ We then can print the inputs in a legible format, setting values to the variable
 </body>
 </html>
 ```
-
 
 ---
 
