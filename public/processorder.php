@@ -1,21 +1,21 @@
 <?php
+    $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
+    $file= fopen("DOCUMENT_ROOT\\..\\orders\\orders.txt", 'ab');
+
     //defining constants for the price
     define('TIREPRICE', 100.00);
     define('OILPRICE', 10.00);
     define('SPARKPRICE', 4.00);
 
-    $tireqty        =   $_POST['tireqty'];
-    $oilqty         =   $_POST['oilqty'];
-    $sparkqty       =   $_POST['sparkqty'];
-    $totalValue     =   0.00;
-    $taxrate        =   0.10;
-    $tireDiscount   =   0;
-    $oilDiscount    =   0;
-    $sparkDiscount  =   0;
-
-    switch($find){
-        
-    }
+    $tire_qty        =   $_POST['tire_qty'];
+    $oil_qty         =   $_POST['oil_qty'];
+    $spark_qty       =   $_POST['spark_qty'];
+    $find_option     =   $_POST['find_option'];
+    $total_value     =   0.00;
+    $tax_rate        =   0.10;
+    $tire_discount   =   0;
+    $oil_discount    =   0;
+    $spark_discount  =   0;
 
 ?>
 
@@ -27,40 +27,88 @@
     <title>
         Bob's Auto Parts - Order Results
     </title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
     <h1>Bob's Auto Parts</h1>
     <h2>Order results</h2>
 
     <?php 
+        //----------------------------------------------------------------------------------------------------------------
+        //Date and time order was processed
         echo "<p>Order processed at ".date('H:i jS F')."</p>"; 
 
-
-        echo ($tireqty ? "<br>$tireqty tires" : "<br>No tires added to the cart");
-        echo ($oilqty? "<br>$oilqty bottles of oil" : "<br>No bottles of oil added to the cart");
-        echo ($sparkqty? "<br>$sparkqty spark plugs" : "<br>No spark plugs added to the cart");
-
+        //----------------------------------------------------------------------------------------------------------------
+        //Verifies if there are any items in the cart
+        echo ($tire_qty  ? "<br>$tire_qty tires"          : "<br>No tires added to the cart");
+        echo ($oil_qty   ? "<br>$oil_qty bottles of oil"  : "<br>No bottles of oil added to the cart");
+        echo ($spark_qty ? "<br>$spark_qty spark plugs"   : "<br>No spark plugs added to the cart");
         echo "<br>";
 
-        $totalqty   =   $tireqty + $oilqty + $sparkqty;
+        //----------------------------------------------------------------------------------------------------------------
+        //Calculates the total number of items
+        $total_qty   =   $tire_qty + $oil_qty + $spark_qty;
 
-        if($tireqty >= 10 && $tireqty < 50){
-            $tireDiscount= 5;
-        } elseif ($tireqty >=50 && $tireqty <100) {
-            $tireDiscount= 10;
-        } elseif ($tireqty >=100){
-            $tireDiscount= 15;
+        //----------------------------------------------------------------------------------------------------------------
+        //If there are no items in the cart, return a simple message and ends the script
+        if($total_qty == 0){
+            echo "<font color = red>You didn't order anything</font>";
+            exit;
         }
 
-        $tireDiscount = TIREPRICE/100*$tireDiscount;
+        //----------------------------------------------------------------------------------------------------------------
+        //Calculating discount for tires
+        if($tire_qty > 0){
+            if($tire_qty >= 10 && $tire_qty < 50){
+                $tire_discount= 5;
+            } elseif ($tire_qty >=50 && $tire_qty <100) {
+                $tire_discount= 10;
+            } elseif ($tire_qty >=100){
+                $tire_discount= 15;
+            }
+        }
 
-        $totalValue =   ($tireqty*(TIREPRICE - (TIREPRICE/100*$tireDiscount))) + ($oilqty*OILPRICE) + ($sparkqty*SPARKPRICE);
+        $tire_discount = TIREPRICE/100*$tire_discount;
 
-        echo ($totalqty ? "Items ordered: $totalqty <br> Subtotal: R$".number_format($totalValue,2) :  "<font color = red> No items in the cart </font>");
+        //----------------------------------------------------------------------------------------------------------------
+        //Calculating total value, including the tire price with the discount
+        $total_value =   ($tire_qty*(TIREPRICE - (TIREPRICE/100*$tire_discount))) + ($oil_qty*OILPRICE) + ($spark_qty*SPARKPRICE);
+
+        //----------------------------------------------------------------------------------------------------------------
+        //Prints the total amount of items and the subtotal (price without taxes);
+        echo "Items ordered: $total_qty <br> Subtotal: R$".number_format($total_value,2);
         
-        $totalValue=   $totalValue*(1+$taxrate);
-        echo ("<p>Total value with taxes included: R$".number_format($totalValue,2)."</p>");
+        
+        //----------------------------------------------------------------------------------------------------------------
+        //Calculates the total value, adding taxes (10%)
+        $total_value=   $total_value*(1+$tax_rate);
+        echo ("<p>Total value with taxes included: R$".number_format($total_value,2)."</p>");
+        
+        //----------------------------------------------------------------------------------------------------------------
+        //Identifies the option that the user selected in the option field
+        switch($find_option){
+            case 'regular_customer':
+                echo '<p>Regular customer</p>';
+                break;
+            
+            case 'tv_advertising':
+                echo '<p>TV advertising</p>';
+                break;
 
+            case 'phone_directory':
+                echo '<p>Phone directory</p>';
+                break;
+
+            case 'word_of_mouth':
+                echo '<p>Word of mouth</p>';
+                break;
+
+            default:
+                echo 'Uninformed';
+                break;
+            }
+        
+        //----------------------------------------------------------------------------------------------------------------
         
     ?>
     

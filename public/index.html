@@ -4,37 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="../styles/styles.css">
 </head>
 <body>
-    <form action="processorder.php" method=post>
+    <form action="../private/processorder.php" method=post>
         <table>
             <tr>
-                <td width="150">item</td>
-                <td width="150">quantity</td>
+                <td width="150" class="table_cell table_header">Item</td>
+                <td width="150" class="table_cell table_header">Quantity</td>
             </tr>
             <tr>
                 <td>Tires</td>
-                <td><input type=text name="tireqty" size="3" maxlength="3"></td>
+                <td><input type=text class="input input_field" name="tire_qty" size="3" maxlength="3"></td>
             </tr>
             <tr>
                 <td>Oil</td>
-                <td><input type=text name="oilqty" size="3" maxlength="3"></td>
+                <td><input type=text class="input input_field" name="oil_qty" size="3" maxlength="3"></td>
             </tr>
             <tr>
                 <td>Spark Plugs</td>
-                <td><input type=text name="sparkqty" size="3" maxlength="3"></td>
+                <td><input type=text class="input input_field" name="spark_qty" size="3" maxlength="3"></td>
             </tr>
             <tr>
                 <td>
                     How did you find Bobs?
                 </td>
                 <td>
-                    <select name="findOption">
-                        <option value="regularCustomer">I'm a regularCustomer</option>;
-                        <option value="tvAdvertising">TV advertising</option>;
-                        <option value="phoneDirectory">Phone Directory</option>;
-                        <option value="wordOfMouth">Word of mouth</option>;
+                    <select name="find_option input_select" class="input">
+                        <option value="regular_customer">I'm a regular customer</option>;
+                        <option value="tv_advertising">TV advertising</option>;
+                        <option value="phone_directory">Phone Directory</option>;
+                        <option value="word_of_mouth">Word of mouth</option>;
                     </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Shipping address
+                </td>
+                <td>
+                    <input type=text class="input input_field" name="shipping_adress" size="20" maxlength="20">
                 </td>
             </tr>
             <tr>
