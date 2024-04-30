@@ -1,21 +1,21 @@
 <?php
-    $DOCUMENT_ROOT = $_SERVER['DOCUMENT_ROOT'];
-    $file= fopen("DOCUMENT_ROOT\\..\\orders\\orders.txt", 'ab');
+    //Defining a variable for the root foledr
 
     //defining constants for the price
     define('TIREPRICE', 100.00);
     define('OILPRICE', 10.00);
     define('SPARKPRICE', 4.00);
 
-    $tire_qty        =   $_POST['tire_qty'];
-    $oil_qty         =   $_POST['oil_qty'];
-    $spark_qty       =   $_POST['spark_qty'];
-    $find_option     =   $_POST['find_option'];
-    $total_value     =   0.00;
-    $tax_rate        =   0.10;
-    $tire_discount   =   0;
-    $oil_discount    =   0;
-    $spark_discount  =   0;
+    $tire_qty           =   $_POST['tire_qty'];
+    $oil_qty            =   $_POST['oil_qty'];
+    $spark_qty          =   $_POST['spark_qty'];
+    $find_option        =   $_POST['find_option'];
+    $shipping_address   =   $_POST['shipping_address'];
+    $total_value        =   0.00;
+    $tax_rate           =   0.10;
+    $tire_discount      =   0;
+    $oil_discount       =   0;
+    $spark_discount     =   0;
 
 ?>
 
@@ -36,7 +36,8 @@
     <?php 
         //----------------------------------------------------------------------------------------------------------------
         //Date and time order was processed
-        echo "<p>Order processed at ".date('H:i jS F')."</p>"; 
+        $date= date('H:i jS F');
+        echo "<p>Order processed at $date</p>"; 
 
         //----------------------------------------------------------------------------------------------------------------
         //Verifies if there are any items in the cart
@@ -109,8 +110,28 @@
             }
         
         //----------------------------------------------------------------------------------------------------------------
+        //Print address
         
+        echo "Address for delivery: $shipping_address";
+
     ?>
     
 </body>
 </html>
+
+<?php
+
+// what @ does is not letting php show the default error message for the function error when it happens; Doing this to show the custom error message below;
+$file= @fopen("DOCUMENT_ROOT/../orders/orders.txt", 'ab');
+
+//Shows a legible message if an error occurs when opening the file
+if(!$file){
+    echo '<p> Your order could not be processed at this time. Please, try again later. </p>';
+    echo '(error opening file orders.txt)';
+    exit;
+}
+
+$output_string= $date."\n".$tire_qty." tires \t".$oil_qty." oil \t".$spark_qty." spark plugs \t Total Value: \$".$total_value."\t Shipping address:". $shipping_address."\n--------------------------------------------------------------------------------------------------------\n";
+
+fwrite($file, $output_string);
+?>

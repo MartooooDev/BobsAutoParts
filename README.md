@@ -154,12 +154,55 @@ The third and optional parameter is a boolean that allows the system to search f
 $file= fopen('orders.txt', 'ab', true);
 ```
 
-
 ### Error handling
 
 When opening a file, its possible that you're trying to open a file that you have no permission to access. If this happens, PHP will return an error to your web page.
 
 It's important to keep your files on secure folders inside your system, so no one access sensible data.
+
+One good tip for error handling is creating your own custom error messages:
+
+```php
+<?php
+	$file= @fopen("DOCUMENT_ROOT/../orders/orders.txt", 'ab');
+
+	//Shows a legible message if an error occurs when opening the file
+	if(!$file){  
+	echo '<p> Your order could not be processed at this time. Please, try again later. </p>';
+	echo '(error opening file orders.txt)';
+	exit;
+?>
+```
+
+If the `fopen()` function happens to not work, the custom messafe will be displayed. In order to not show the default php error message, we use the "`@`" character.
+
+---
+
+### Writing on files
+
+Writing data on files through PHP is made simply by using `fwrite()` or `fputs()` funcions. both of them do the same thing.
+
+fwrite() is declared with two arguments: the file and the content:
+
+```php
+fwrite($file, $content);
+```
+
+There is a third and optional argument: the length of the data to be stored (in bytes). To avoid compatibility problems between some platforms, you can use this format:
+
+```php
+fwrite($file, $content, strlen($content));
+```
+
+
+
+Another way to write is using the function file_put_contents(), that uses:
+
+```php
+file_put_contents($file, $content, [$flags, [$font_congext]]);
+```
+
+
 
 
 
